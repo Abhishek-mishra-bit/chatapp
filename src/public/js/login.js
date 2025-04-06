@@ -21,6 +21,7 @@ async function submitFormHandler(event){
         localStorage.setItem("token", token);
         
         alert("Successfuly logged in");
+        window.location.href = `${baseUrl}/chat/chatwindow`;
     } catch (error) {
         if(error.response && error.response.status === 404) {
             alert(error.response.data.message);

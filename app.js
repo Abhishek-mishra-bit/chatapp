@@ -10,6 +10,8 @@ const connectDB = require("./src/utils/db");
 
 const signupRoutes = require("./src/routes/signup");
 const loginRoutes = require("./src/routes/login");
+const chatRoutes = require("./src/routes/chat");
+const User = require("./src/models/user");
 
 const app = express();
 
@@ -23,6 +25,7 @@ app.use(express.static(path.join(__dirname, "src", "public")));
 
 app.use("/user", signupRoutes);
 app.use("/users", loginRoutes);
+app.use("/chat", chatRoutes);
   
 
 connectDB()
