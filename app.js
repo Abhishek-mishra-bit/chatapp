@@ -9,7 +9,7 @@ const connectDB = require("./src/utils/db");
 
 
 const signupRoutes = require("./src/routes/signup");
-const { error } = require("console");
+const loginRoutes = require("./src/routes/login");
 
 const app = express();
 
@@ -21,13 +21,14 @@ app.use(express.static(path.join(__dirname, "src", "public")));
 
 
 
-app.use("/user", signupRoutes)
+app.use("/user", signupRoutes);
+app.use("/users", loginRoutes);
   
 
 connectDB()
     .then(()=>{
-        app.listen(process.env.PORT || 3333, ()=>{
-            console.log("Server is running on port: 3333");
+        app.listen(process.env.PORT || 3000, ()=>{
+            console.log("Server is running on port: 3000");
             
         })
     })

@@ -1,4 +1,8 @@
 const baseUrl = window.location.origin;
+const signin = document.getElementById("signin");
+signin.addEventListener("click",()=>{
+   window.location.href = `${baseUrl}/user/login`;
+})
 
  
  async function submitFormHandler(event){    
@@ -12,9 +16,15 @@ const baseUrl = window.location.origin;
         }
         
         const res = await axios.post(`${baseUrl}/user/signup`, data);
-         alert("User signed up successfully!");
+        
+        alert("Successfuly signed up");
+        window.location.href = `${baseUrl}/users/login`;
     } catch (error) {
+        if(error.response && error.response.status === 409) {
+            alert(error.response.data.message);
+        }else{
         console.error("Error during signup", error);
         alert("Signup failed!");
+        }
     }
 }

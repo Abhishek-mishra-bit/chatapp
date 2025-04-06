@@ -9,7 +9,7 @@ body {
     min-height: 100vh;
   }
   
-  /* Header */
+  
   /* Header */
 .header {
     width: 100%;
@@ -64,7 +64,7 @@ body {
   
   
   /* Form */
-  .signup-container {
+  .signin-container {
     margin-top: 60px;
     background-color: #1a1a1a;
     padding: 40px;
@@ -73,14 +73,14 @@ body {
     width: 300px;
   }
   
-  .signup-container h2 {
+  .signin-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #00f7ff;
   }
   
-  .signup-container input,
-  .signup-container button {
+  .signin-container input,
+  .signin-container button {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -89,17 +89,17 @@ body {
     font-size: 14px;
   }
   
-  .signup-container input {
+  .signin-container input {
     background-color: #0d0d0d;
     color: #fff;
     border: 1px solid #00f7ff;
   }
   
-  .signup-container input::placeholder {
+  .signin-container input::placeholder {
     color: #888;
   }
   
-  .signup-container button {
+  .signin-container button {
     background-color: #00f7ff;
     color: #0d0d0d;
     font-weight: bold;
@@ -107,7 +107,7 @@ body {
     transition: 0.3s ease;
   }
   
-  .signup-container button:hover {
+  .signin-container button:hover {
     background-color: #00bcd4;
   }
   

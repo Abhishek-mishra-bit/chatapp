@@ -12,7 +12,8 @@ exports.postSignupdata = async (req, res)=>{
     try{
         const existingUser = await User.findOne({email});
         if(existingUser){
-            return res.status(409).json({message: "User already exist"})
+            
+            return res.status(409).json({message: "User already exists, Please Login"})
         }
 
         const newUser = new User({name, email, phone,password});
