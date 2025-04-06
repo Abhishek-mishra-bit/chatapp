@@ -16,6 +16,9 @@ async function submitFormHandler(event){
         }
         
         const res = await axios.post(`${baseUrl}/users/login`, data);
+        console.log("Response:", res);
+        const token = res.data.token;
+        localStorage.setItem("token", token);
         
         alert("Successfuly logged in");
     } catch (error) {

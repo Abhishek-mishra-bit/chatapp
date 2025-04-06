@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const userSchema = new mongoose.Schema(
     {
@@ -27,6 +29,11 @@ const userSchema = new mongoose.Schema(
         
     }
 )   
+
+userSchema.methods.getJWT = async function () {
+    const token = jwt.sign({id: this._id}, process.env.JWT_SECRET);
+    return token;
+}
 
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();

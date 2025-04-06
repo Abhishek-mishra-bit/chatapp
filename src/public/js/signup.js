@@ -1,7 +1,7 @@
 const baseUrl = window.location.origin;
 const signin = document.getElementById("signin");
 signin.addEventListener("click",()=>{
-   window.location.href = `${baseUrl}/user/login`;
+   window.location.href = `${baseUrl}/users/login`;
 })
 
  
