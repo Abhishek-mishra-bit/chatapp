@@ -17,10 +17,9 @@ exports.authenticate = async (req, res, next) => {
       const user = await User.findById(decoded.id).select("-password");
 
       if (!user) return res.status(401).json({ message: "Unauthorized, user not found" });
-      console.log("user is :" , user);
+      
   
-      req.user = user; // attach user to request
-      console.log("Req is ;" , req.user);
+      req.user = user;       
       next();
     } catch (err) {
       return res.status(401).json({ message: "Invalid token" });
