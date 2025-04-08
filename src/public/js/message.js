@@ -1,8 +1,10 @@
 const baseUrl = window.location.origin;
 
-window.onload=()=>{
+window.addEventListener("DOMContentLoaded",()=>{
     fetchMessage();
-}
+    loadMessageFromLocalStorage();
+
+})
 
 async function sendMessage(){
     const token = localStorage.getItem("token")
@@ -27,21 +29,52 @@ async function sendMessage(){
 async function fetchMessage() {
     const token = localStorage.getItem("token");
     try{
-        const response = await axios.get(`${baseUrl}/message/all`,{
-            headers:{Authorization:token}
-        });
-        const messages = response.data.messages;
-        
-        
-        const parsedToken = await parseJwt(token);
-        const currentUser = parsedToken.id;
-        
-       
-        
+        const stored = JSON.parse(localStorage.getItem("messages")||"[]");
 
+        const lastMessageId = stored.length > 0 ? stored[stored.length-1]._id : null;
+
+        const response = await axios.get(`${baseUrl}/message/all`,{
+            headers:{Authorization:token},
+            params:{lastMessageId}
+
+        });
+        const newMessages = response.data.messages;
+        
+        saveMessageToLocalStorage(newMessages);
+        loadMessageFromLocalStorage();
+        
+        
+        
+    }catch(err){
+        console.error("Error fetching expense: " ,err);       
+    }
+}
+
+function saveMessageToLocalStorage(messages){   
+    try{
+    const existing = JSON.parse(localStorage.getItem("messages")||"[]");
+    const combined = [...existing, ...messages];
+
+    const last10 = combined.slice(-10);
+   
+    
+    localStorage.setItem("messages", JSON.stringify(last10));
+    }catch(err){
+        console.log("Error in saving localStorage", err);
+    }
+}
+
+async function loadMessageFromLocalStorage() {   
+    const token = localStorage.getItem("token"); 
+    try{
+        const stored = JSON.parse(localStorage.getItem("messages")|| "[]");
+
+        const parsedToken = await parseJwt(token);
+        const currentUser = parsedToken.id;      
+       
         const chatBox = document.getElementById("chatBox");
         chatBox.innerHTML="";
-        messages.forEach(msg => {
+        stored.forEach(msg => {
             const div = document.createElement("div");
             div.classList.add("message")
 
@@ -54,9 +87,12 @@ async function fetchMessage() {
 
             div.innerHTML = `${msg.userId.name}:${msg.message}`;
             chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
         });
+        
     }catch(err){
-        console.error("Error fetching expense: " ,err);
+        console.log("Error to load message from localStorage", err);
         
 
     }
