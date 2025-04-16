@@ -12,6 +12,7 @@ const signupRoutes = require("./src/routes/signup");
 const loginRoutes = require("./src/routes/login");
 const chatRoutes = require("./src/routes/chat");
 const messageRoutes = require("./src/routes/message");
+const groupRoutes = require("./src/routes/group");
 const User = require("./src/models/user");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/user", signupRoutes);
 app.use("/users", loginRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
+app.use("/group",groupRoutes);
 
 connectDB()
     .then(()=>{

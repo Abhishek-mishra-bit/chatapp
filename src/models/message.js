@@ -10,6 +10,11 @@ const msgSchema = new mongoose.Schema(
             required:true,
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"
+        },
+        groupId:{
+            required:true,
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Group"
         }
         
     },

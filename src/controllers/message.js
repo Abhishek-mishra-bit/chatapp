@@ -34,10 +34,10 @@ exports.sendMessage = async(req, res)=>{
       // Reverse to keep oldest first
       newMessages = newMessages.reverse();
     }
-    const messages = await Message.find().populate("userId", "name");
+    
    
     
-    res.status(200).json({success: true, messages});
+    res.status(200).json({success: true, newMessages});
   }}catch(err){
     res.status(500).json({success:false, message:"Failed to fetch the message", err});    
   }

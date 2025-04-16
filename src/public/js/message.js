@@ -25,7 +25,7 @@ async function sendMessage(){
         console.error("Error sending message:", err);
 
     }
-}
+} 
 async function fetchMessage() {
     const token = localStorage.getItem("token");
     try{
