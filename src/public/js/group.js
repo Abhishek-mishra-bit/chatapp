@@ -172,27 +172,38 @@ async function loadGroupMessages(groupId) {
 
 
 
-async function sendMessage() {
-  const messageInput = document.getElementById("messageInput");
-  const message = messageInput.value.trim();
+async function sendMessage(e) {
+  e.preventDefault();
 
-  if (!message || !activeGroupId) return;
+  const messageInput = document.getElementById("messageInput");
+  const fileInput = document.getElementById("fileInput");
+  const message = messageInput.value.trim();
+  const file = fileInput.files[0];
+
+  if (!message && !file) return; // nothing to send
+
+  const formData = new FormData();
+  formData.append("groupId", activeGroupId);
+  if (message) formData.append("message", message);
+  if (file) formData.append("file", file);
 
   try {
-    await axios.post(`/group/send-message`, {
-      message,
-      groupId: activeGroupId
-    }, {
-      headers: { Authorization: token }
+    await axios.post(`/group/send-message`, formData, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "multipart/form-data"
+      }
     });
 
-    messageInput.value = ""; // Clear input
+    messageInput.value = "";
+    fileInput.value = "";
 
-  } catch (err) {
+  } catch (err) { 
     console.error("Error sending message", err);
     alert("Could not send message");
   }
 }
+
 
 async function addMembers(){  
   const modal = new bootstrap.Modal(document.getElementById("addMemberModal"));

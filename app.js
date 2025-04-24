@@ -42,7 +42,7 @@ io.on("connection", (socket)=>{
         socket.join(groupId);
         console.log(`🔗 Socket ${socket.id} joined group ${groupId}`);
     });
-
+    
     socket.on("disconnect", () => {
         console.log("❌ Socket disconnected:", socket.id);
       });

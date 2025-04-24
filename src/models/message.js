@@ -15,7 +15,16 @@ const msgSchema = new mongoose.Schema(
             required:true,
             type: mongoose.Schema.Types.ObjectId,
             ref:"Group"
+        },
+        fileUrl: {
+            type: String,
+            default: null
+        },
+        fileType: {
+            type: String,
+            default: null
         }
+          
         
     },
     {timestamps:true}

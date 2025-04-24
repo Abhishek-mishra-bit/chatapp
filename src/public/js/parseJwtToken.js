@@ -12,4 +12,4 @@ async function parseJwt(token){
     );
     
     return JSON.parse(jsonPayLoad);
-}
+} 

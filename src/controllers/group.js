@@ -90,13 +90,25 @@ exports.sendMessage = async (req, res) => {
   try{
     
     const {groupId, message}= req.body;   
-    const newMessage = new Message({
-      userId: req.user._id,
-      groupId,
-      message
-    })    
-    await newMessage.save();
+    const userId = req.user.id;
 
+    let fileUrl = null;
+    let fileType = null;
+
+    if (req.file) {
+      fileUrl = req.file.location;
+      fileType = req.file.mimetype.split("/")[0]; // e.g., image, video
+    }
+
+    const msg = await Message.create({
+      groupId,
+      senderId: userId,
+      senderName: req.user.name,
+      message: message || null,
+      fileUrl,
+      fileType
+    });
+    
     const io = getIO();
     io.to(groupId).emit("new-message", {
       groupId,

@@ -36,10 +36,16 @@
         <div class="message other">Hey there!</div>
         <div class="message you">Hello!</div>
       </div>
-      <div class="input-container">
-        <input type="text" id="messageInput" placeholder="Type a message..." />
-        <button onclick="sendMessage()">Send</button>
-      </div>
+      <form id="messageForm">
+        <div class="input-container">
+          <input type="text" id="messageInput" placeholder="Type a message..." />
+          <input type="file" id="fileInput" />
+          <div id="typingIndicator" style="color: #0f0; font-size: 0.9rem; margin-top: 5px;"></div>
+          <button type="submit">Send</button>
+        </div>
+      </form>
+      
+      
       
       
     </main>
