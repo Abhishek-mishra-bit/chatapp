@@ -5,6 +5,8 @@ const Message = require("../models/message");
 const GroupMember = require("../models/groupMember");
 const User = require("../models/user");
 const groupMember = require("../models/groupMember");
+const { getIO } = require("../utils/socket");
+
 
 exports.createGroup = async(req, res)=>{
     try {
@@ -92,8 +94,17 @@ exports.sendMessage = async (req, res) => {
       userId: req.user._id,
       groupId,
       message
-    })
+    })    
     await newMessage.save();
+
+    const io = getIO();
+    io.to(groupId).emit("new-message", {
+      groupId,
+      message,
+      senderId: req.user._id,
+      senderName: req.user.name
+    });
+
     res.status(201).json({message:"Message sent"})
   }catch(err){
     console.error("Error sending message", err)

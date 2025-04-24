@@ -1,6 +1,7 @@
+const baseUrl = window.location.origin;
+const socket = io(window.location.origin);
 const token = localStorage.getItem("token");
 const parsed = parseJwt(token);
-const baseUrl = window.location.origin;
 document.getElementById("createGroupBtn").addEventListener("click", async () => createGroup());
 document.getElementById("addMemberBtn").addEventListener("click", () => addMembers());
 document.getElementById("searchUserInput").addEventListener("input",(e)=> searchUserInput(e));
@@ -122,6 +123,10 @@ async function loadGroupMessages(groupId) {
 
     const parsedToken = await parseJwt(token);
     const currentUser = parsedToken.id; 
+
+    
+    // 🔁 Join the socket room
+    socket.emit("join-group", groupId);
     
     const adminCheck = await axios.get(`/group/${groupId}/is-admin`, {
       headers: { Authorization: token }
@@ -141,6 +146,22 @@ async function loadGroupMessages(groupId) {
       div.textContent = `${msg.senderName}: ${msg.message}`;
       chatBox.appendChild(div);
     });
+
+     // ✅ Real-time socket message listener
+     socket.off("new-message").on("new-message", (data) => {
+      if (data.groupId === groupId) {
+        const div = document.createElement("div");
+        div.classList.add("message");
+
+        const isMe = data.senderId === currentUser;
+        div.classList.add(isMe ? "you" : "other");
+
+        div.textContent = `${data.senderName}: ${data.message}`;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    });
+
 
     chatBox.scrollTop = chatBox.scrollHeight;
   } catch (err) {
@@ -166,7 +187,6 @@ async function sendMessage() {
     });
 
     messageInput.value = ""; // Clear input
-    loadGroupMessages(activeGroupId); // Reload chat
 
   } catch (err) {
     console.error("Error sending message", err);
