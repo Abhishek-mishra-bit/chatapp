@@ -10,10 +10,14 @@ cron.schedule("0 2 * * *", async () => {
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
   try {
+
+    await Message.deleteMany({ groupId: null });
+
     // Find old messages
     const oldMessages = await Message.find({
       createdAt: { $lt: oneDayAgo }
-    });
+    });    
+
 
     if (oldMessages.length === 0) {
       console.log("📭 No messages to archive");
@@ -21,7 +25,18 @@ cron.schedule("0 2 * * *", async () => {
     }
 
     // Insert into archive collection
-    await ArchivedMessage.insertMany(oldMessages);
+    const archivedData = oldMessages.map(msg => ({
+        message: msg.message || null,
+        userId: msg.userId,
+        groupId: msg.groupId || null,
+        fileUrl: msg.fileUrl || null,
+        fileType: msg.fileType || null,
+        createdAt: msg.createdAt,
+        updatedAt: msg.updatedAt
+      }));
+
+      await ArchivedMessage.insertMany(archivedData);
+      
 
     // Delete from original collection
     await Message.deleteMany({ _id: { $in: oldMessages.map(m => m._id) } });
