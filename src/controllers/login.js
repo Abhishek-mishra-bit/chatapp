@@ -3,7 +3,7 @@ const rootDir = require("../utils/path");
 const User = require("../models/user");
 
 exports.getLoginPage = (req,res)=>{
-    res.sendFile(path.join(rootDir,"views", "login.html"))
+    res.sendFile(path.join(rootDir, "src/views", "login.html"));
 };
 
 exports.postLoginData = async (req, res) => {

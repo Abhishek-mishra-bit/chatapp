@@ -182,10 +182,10 @@ async function sendMessage(e) {
 
   if (!message && !file) return; // nothing to send
 
-  const formData = new FormData();
-  formData.append("groupId", activeGroupId);
-  if (message) formData.append("message", message);
-  if (file) formData.append("file", file);
+    const formData = new FormData();
+    formData.append("groupId", activeGroupId);
+    if (message) formData.append("message", message);
+    if (file) formData.append("file", file);
 
   try {
     await axios.post(`/group/send-message`, formData, {
@@ -198,7 +198,7 @@ async function sendMessage(e) {
     messageInput.value = "";
     fileInput.value = "";
 
-  } catch (err) { 
+  } catch (err) {
     console.error("Error sending message", err);
     alert("Could not send message");
   }

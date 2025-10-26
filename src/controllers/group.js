@@ -11,7 +11,6 @@ const { getIO } = require("../utils/socket");
 exports.createGroup = async(req, res)=>{
     try {
         const { name, members } = req.body;
-        console.log("name and members:", name, members);
         
         const group = new Group({ name }); 
         await group.save();
@@ -50,7 +49,7 @@ exports.getMyGroups = async (req, res) => {
       name: group.name
     }));
 
-    res.status(200).json(response); // remove the extra { groups } wrapper to match frontend
+    res.status(200).json(response); 
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to fetch groups' });
@@ -64,8 +63,8 @@ exports.getGroupMessages = async (req, res) => {
     const groupId = req.params.groupId;
 
     const messages = await Message.find({ groupId })
-      .populate('userId', 'name') // only fetch user's name
-      .sort({ createdAt: 1 })      // oldest to newest
+      .populate('userId', 'name') 
+      .sort({ createdAt: 1 })      
       .lean();                     // improve performance
 
     const response = messages.map(msg => ({
@@ -102,13 +101,11 @@ exports.sendMessage = async (req, res) => {
 
     const msg = await Message.create({
       groupId,
-      senderId: userId,
-      senderName: req.user.name,
+      userId: userId,
       message: message || null,
       fileUrl,
       fileType
     });
-    
     const io = getIO();
     io.to(groupId).emit("new-message", {
       groupId,

@@ -3,7 +3,7 @@ const rootDir = require("../utils/path");
 const User = require("../models/user");
 
 exports.getSignupPage = (req,res)=>{
-    res.sendFile(path.join(rootDir,"views", "signup.html"))
+    res.sendFile(path.join(rootDir, "src/views", "signup.html"));
 
 }
 

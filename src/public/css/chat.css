@@ -222,3 +222,36 @@ button:hover {
   font-weight: bold;
 }
 
+/* Upload button styling */
+.upload-btn {
+  background-color: transparent;
+  border: 2px dashed #00ffea;
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #00ffea;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #00ffea;
+  color: #0f0f1a;
+  box-shadow: 0 0 8px #00ffea80;
+}
+
+/* Preview image/file name */
+#filePreview img {
+  max-height: 100px;
+  border: 1px solid #00ffea;
+  margin-top: 10px;
+}
+
+#filePreview p {
+  color: #00ffea;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+
